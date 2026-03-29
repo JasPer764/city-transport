@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Карта транспорта</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+body {margin:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f4f4;}
+/* Navbar */
+header {
+  position: sticky;
+  top:0;
+  background: linear-gradient(90deg,#2c3e50,#34495e);
+  color:#fff;
+  padding:15px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:1000;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+header .logo {font-size:24px; font-weight:bold; display:flex; align-items:center;}
+header .logo span {margin-left:10px; color:#1abc9c;}
+nav a {
+  color:#fff;
+  text-decoration:none;
+  margin-left:25px;
+  font-weight:500;
+  position:relative;
+  transition: all 0.3s;
+}
+nav a::after {
+  content:'';
+  position:absolute;
+  width:0;
+  height:2px;
+  bottom:-4px;
+  left:0;
+  background:#1abc9c;
+  transition:width 0.3s;
+}
+nav a:hover::after {width:100%;}
+nav a:hover {color:#1abc9c;}
+
+/* Map */
+#map {height:500px; margin:40px auto; max-width:90%; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.3);}
+
+/* Legend */
+.legend {
+  background:#fff;
+  padding:12px 15px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  line-height:1.5;
+  position:absolute;
+  top:15px;
+  right:15px;
+  z-index:1000;
+  font-weight:bold;
+}
+.legend span {display:block; margin-bottom:5px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🚍 <span>TransportSys</span></div>
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="routes.html">Маршруты</a>
+    <a href="map.html">Карта</a>
+  </nav>
+</header>
+
+<div id="map"></div>
+
+<div class="legend">
+  <span style="color:blue;">● Автобус №1</span>
+  <span style="color:red;">● Трамвай №3</span>
+  <span style="color:green;">● Маршрутка №7</span>
+</div>
+
+<script>
+// создаём карту
+var map = L.map('map').setView([55.75,37.61], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// маршруты
+var routes = [
+  {name:"Автобус №1", color:"blue", stops:[[55.75,37.61],[55.76,37.62],[55.70,37.53]]},
+  {name:"Трамвай №3", color:"red", stops:[[55.74,37.55],[55.75,37.61],[55.78,37.63]]},
+  {name:"Маршрутка №7", color:"green", stops:[[55.73,37.60],[55.75,37.61]]}
+];
+
+// добавляем линии маршрутов и маркеры
+var busMarkers = [];
+routes.forEach(r=>{
+  L.polyline(r.stops,{color:r.color,weight:5}).addTo(map);
+  r.stops.forEach(s=>{
+    L.circleMarker(s,{color:r.color,radius:8,fillOpacity:0.8}).addTo(map).bindPopup(r.name);
+  });
+  // добавляем анимацию автобусов на первом маршруте
+  if(r.name==="Автобус №1"){
+    var bus=L.circleMarker(r.stops[0],{radius:10,color:r.color,fillColor:r.color,fillOpacity:1}).addTo(map);
+    busMarkers.push({marker:bus, route:r.stops, index:0});
+  }
+});
+
+// функция движения автобусов
+function moveBuses(){
+  busMarkers.forEach(b=>{
+    b.index++; if(b.index>=b.route.length) b.index=0;
+    b.marker.setLatLng(b.route[b.index]);
+  });
+}
+
+// анимация каждую секунду
+setInterval(moveBuses, 1000);
+</script>
+
+</body>
+</html>
+
+
+
+

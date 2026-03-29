@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Маршруты</title>
+<style>
+body {margin:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f4f4;}
+/* Navbar */
+header {
+  position: sticky;
+  top:0;
+  background: linear-gradient(90deg,#2c3e50,#34495e);
+  color:#fff;
+  padding:15px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:1000;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+header .logo {font-size:24px; font-weight:bold; display:flex; align-items:center;}
+header .logo span {margin-left:10px; color:#1abc9c;}
+nav a {
+  color:#fff;
+  text-decoration:none;
+  margin-left:25px;
+  font-weight:500;
+  position:relative;
+  transition: all 0.3s;
+}
+nav a::after {
+  content:'';
+  position:absolute;
+  width:0;
+  height:2px;
+  bottom:-4px;
+  left:0;
+  background:#1abc9c;
+  transition:width 0.3s;
+}
+nav a:hover::after {width:100%;}
+nav a:hover {color:#1abc9c;}
+
+/* Title */
+h2 {text-align:center; margin:40px 0; font-size:32px; color:#34495e;}
+
+/* Routes cards */
+.routes {
+  display:flex;
+  justify-content:space-around;
+  flex-wrap:wrap;
+  margin:40px 20px;
+}
+.route {
+  background:#fff;
+  padding:30px;
+  margin:15px;
+  flex:1 1 280px;
+  border-radius:15px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor:pointer;
+}
+.route:hover {transform:translateY(-10px); box-shadow:0 10px 25px rgba(0,0,0,0.3);}
+.route h3 {margin-bottom:15px; font-size:22px;}
+.route p {color:#555; font-size:16px;}
+.route.bus h3 {color:#3498db;}
+.route.tram h3 {color:#e74c3c;}
+.route.minibus h3 {color:#2ecc71;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🚍 <span>TransportSys</span></div>
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="routes.html">Маршруты</a>
+    <a href="map.html">Карта</a>
+  </nav>
+</header>
+
+<h2>Список маршрутов</h2>
+
+<section class="routes">
+  <div class="route bus">
+    <h3>Автобус №1</h3>
+    <p>Центр → Вокзал → Университет</p>
+  </div>
+  <div class="route tram">
+    <h3>Трамвай №3</h3>
+    <p>Парк → Центр → ТЦ</p>
+  </div>
+  <div class="route minibus">
+    <h3>Маршрутка №7</h3>
+    <p>Жилой район → Центр</p>
+  </div>
+</section>
+
+</body>
+</html>
